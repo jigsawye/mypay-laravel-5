@@ -17,6 +17,8 @@ class Payment
 
     protected $callbackUrl;
 
+    protected $store = [];
+
     protected $params = [];
 
     protected $mapping = [];
@@ -28,8 +30,7 @@ class Payment
 
         $this->initUrl = $config->get('mypay.domain') . 'api/initPaySystem.php';
         $this->callbackUrl = $config->get('mypay.callback');
-        $this->store_id = $config->get('mypay.store_id');
-        $this->store_key = $config->get('mypay.store_key');
+        $this->store = $config->get('mypay.store');
         $this->mapping = $config->get('mypay.params');
 
         $this->params = $this->initParams();
@@ -52,15 +53,15 @@ class Payment
 
 
     /**
-     * @param $store_id
-     * @param $store_key
+     * @param $storeId
+     * @param $storeKey
      *
      * @return $this
      */
-    public function setStore($store_id, $store_key)
+    public function setStore($storeId, $storeKey)
     {
-        $this->store_id = $store_id;
-        $this->store_key = $store_key;
+        $this->store['id'] = $storeId;
+        $this->store['key'] = $storeKey;
 
         return $this;
     }
@@ -123,8 +124,8 @@ class Payment
     private function initParams()
     {
         return [
-            'store_id' => $this->store_id,
-            'store_key' => $this->store_key,
+            'store_id' => $this->store['id'],
+            'store_key' => $this->store['key'],
             'ip' => $this->request->getClientIp(),
             'returl' => $this->callbackUrl,
             'charset' => 'UTF-8',
