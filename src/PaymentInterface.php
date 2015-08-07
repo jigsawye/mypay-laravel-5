@@ -12,9 +12,13 @@ interface PaymentInterface
 
     public function user(array $user);
 
+    public function orderId($orderId);
+
+    public function paymentMethod(array $method);
+
     public function store($storeId, $storeKey);
 
-    public function items($orderId, array $items);
+    public function items(array $items);
 
     public function send();
 }
