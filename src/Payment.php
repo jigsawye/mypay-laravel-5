@@ -48,6 +48,29 @@ class Payment implements PaymentInterface
     }
 
     /**
+     * @param $orderId
+     *
+     * @return $this
+     */
+    public function orderId($orderId)
+    {
+        $this->params += ['order_id' => $orderId];
+
+        return $this;
+    }
+
+    /**
+     * @param array $method
+     *
+     * @return $this
+     */
+    public function paymentMethod(array $method)
+    {
+        $this->params += ['pfn' => 0];
+
+        return $this;
+    }
+    /**
      * @param $storeId
      * @param $storeKey
      *
@@ -72,12 +95,12 @@ class Payment implements PaymentInterface
 
         $userId = array_get($user, 'user_id', 'user_id');
         $userName = array_get($user, 'name', false);
-        $userAddress = array_get($user, 'user_address', false);
-        $userPhone = array_get($user, 'user_phone', false);
+        $userAddress = array_get($user, 'address', false);
+        $userPhone = array_get($user, 'phone', false);
 
-        !$userName ?: $params += ['user_name' => $userName, 'user_real_name' => $userName];
-        !$userAddress ?: $params += ['user_address' => $userAddress];
-        !$userPhone ?: $params += ['user_phone' => $userPhone, 'user_cellphone' => $userPhone];
+        ! $userName ?: $params += ['user_name' => $userName, 'user_real_name' => $userName];
+        ! $userAddress ?: $params += ['user_address' => $userAddress];
+        ! $userPhone ?: $params += ['user_phone' => $userPhone, 'user_cellphone' => $userPhone];
 
         $this->params['userId'] = $userId;
         $this->params += $params;
@@ -86,17 +109,15 @@ class Payment implements PaymentInterface
     }
 
     /**
-     * @param       $orderId
      * @param array $items
      *
      * @return mixed
      */
-    public function items($orderId, array $items)
+    public function items(array $items)
     {
         $itemParams = [
-            'order_id' => $orderId,
             'item' => count($items),
-            'cost' => 0
+            'cost' => 0,
         ];
 
         foreach ($items as $i => $item) {
@@ -129,7 +150,6 @@ class Payment implements PaymentInterface
             'returl' => $this->callbackUrl,
             'charset' => 'UTF-8',
             'user_id' => 'user_id',
-            'pfn' => '0',
         ];
     }
 }
