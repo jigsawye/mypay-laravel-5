@@ -74,14 +74,20 @@ class Payment
      */
     public function setUser(array $user)
     {
-        $this->params += [
-            'user_id' => 'user_id',
-            'user_name' => $user['name'],
-            'user_real_name' => $user['name'],
-            'user_address' => $user['address'],
-            'user_phone' => $user['phone'],
-            'user_cellphone' => $user['phone'],
+        $userId = array_get($user, 'user_id', 'user_id');
+        $userName = array_get($user, 'name', false);
+        $userAddress = array_get($user, 'user_address', false);
+        $userPhone = array_get($user, 'user_phone', false);
+
+        $params = [
+            'user_id' => $userId
         ];
+
+        !$userName ?: $params += ['user_name' => $userName, 'user_real_name' => $userName];
+        !$userAddress ?: $params += ['user_address' => $userAddress];
+        !$userPhone ?: $params += ['user_phone' => $userPhone, 'user_cellphone' => $userPhone];
+
+        $this->params += $params;
 
         return $this;
     }
