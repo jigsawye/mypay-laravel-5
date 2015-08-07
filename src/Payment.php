@@ -2,12 +2,11 @@
 
 namespace Jigsawye\Mypay;
 
-use App\Model\Entities\Order;
 use GuzzleHttp\Client;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Http\Request;
 
-class Payment
+class Payment implements PaymentInterface
 {
     protected $client;
 
@@ -36,9 +35,6 @@ class Payment
         $this->params = $this->initParams();
     }
 
-
-
-
     /**
      * @return mixed
      */
@@ -51,14 +47,13 @@ class Payment
         return $result;
     }
 
-
     /**
      * @param $storeId
      * @param $storeKey
      *
      * @return $this
      */
-    public function setStore($storeId, $storeKey)
+    public function store($storeId, $storeKey)
     {
         $this->store['id'] = $storeId;
         $this->store['key'] = $storeKey;
@@ -66,13 +61,12 @@ class Payment
         return $this;
     }
 
-
     /**
      * @param array $user
      *
      * @return $this
      */
-    public function setUser(array $user)
+    public function user(array $user)
     {
         $userId = array_get($user, 'user_id', 'user_id');
         $userName = array_get($user, 'name', false);
@@ -98,7 +92,7 @@ class Payment
      *
      * @return mixed
      */
-    public function setItems($orderId, array $items)
+    public function items($orderId, array $items)
     {
         $itemParams = [
             'order_id' => $orderId,
