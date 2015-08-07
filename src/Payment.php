@@ -48,6 +48,18 @@ class Payment implements PaymentInterface
     }
 
     /**
+     * @param $url
+     *
+     * @return $this
+     */
+    public function returnUrl($url)
+    {
+        $this->returnUrl = $url;
+
+        return $this;
+    }
+
+    /**
      * @param $orderId
      *
      * @return $this

@@ -20,5 +20,7 @@ interface PaymentInterface
 
     public function items(array $items);
 
+    public function returnUrl($url);
+
     public function send();
 }
