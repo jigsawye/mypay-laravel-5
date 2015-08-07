@@ -12,9 +12,9 @@ class Payment implements PaymentInterface
 
     protected $request;
 
-    protected $initUrl;
+    protected $url;
 
-    protected $callbackUrl;
+    protected $returnUrl;
 
     protected $store = [];
 
@@ -27,8 +27,8 @@ class Payment implements PaymentInterface
         $this->client = $client;
         $this->request = $request;
 
-        $this->initUrl = $config->get('mypay.domain') . 'api/initPaySystem.php';
-        $this->callbackUrl = $config->get('mypay.callback');
+        $this->url = $config->get('mypay.url');
+        $this->returnUrl = $config->get('mypay.return_url');
         $this->store = $config->get('mypay.store');
         $this->mapping = $config->get('mypay.params');
 
@@ -40,7 +40,7 @@ class Payment implements PaymentInterface
      */
     public function send()
     {
-        $response = $this->client->post($this->initUrl, ['form_params' => $this->params]);
+        $response = $this->client->post($this->url, ['form_params' => $this->params]);
 
         parse_str($response->getBody(), $result);
 
@@ -147,7 +147,7 @@ class Payment implements PaymentInterface
             'store_id' => $this->store['id'],
             'store_key' => $this->store['key'],
             'ip' => $this->request->getClientIp(),
-            'returl' => $this->callbackUrl,
+            'returl' => $this->returnUrl,
             'charset' => 'UTF-8',
             'user_id' => 'user_id',
         ];
