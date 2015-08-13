@@ -72,13 +72,13 @@ class Payment implements PaymentInterface
     }
 
     /**
-     * @param array $method
+     * @param $method
      *
      * @return $this
      */
-    public function paymentMethod(array $method)
+    public function paymentMethod($method)
     {
-        $this->params += ['pfn' => 0];
+        $this->params = $method;
 
         return $this;
     }
@@ -162,6 +162,7 @@ class Payment implements PaymentInterface
             'returl' => $this->returnUrl,
             'charset' => 'UTF-8',
             'user_id' => 'user_id',
+            'pfn' => 0,
         ];
     }
 }

@@ -14,7 +14,7 @@ interface PaymentInterface
 
     public function orderId($orderId);
 
-    public function paymentMethod(array $method);
+    public function paymentMethod($method);
 
     public function store($storeId, $storeKey);
 
