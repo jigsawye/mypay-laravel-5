@@ -78,7 +78,7 @@ class Payment implements PaymentInterface
      */
     public function paymentMethod($method)
     {
-        $this->params = $method;
+        $this->params['pfn'] = $method;
 
         return $this;
     }
